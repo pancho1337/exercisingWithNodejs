@@ -5,6 +5,8 @@ const requestHandeler = (req, res) => {
     const method = req.method;
 
     if (url === "/") {
+
+        console.log("HITTING IT")
         res.write("<html>")
         res.write("<head><title>panchoDelRancho</title></head>")
         res.write("<body><h1>ubicación principal, tu apodo?</h1></body>")
