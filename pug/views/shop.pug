@@ -1,17 +1,9 @@
-doctype html
-head
-    meta(charset='UTF-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title #{docTitle}
-    link(rel='stylesheet' href='/css/main.css')
-body  
-    header.main-header
-        nav.main-header_nav
-            ul.main-header_item_list
-            li.main-header_item
-                a.active(href='/') Shop
-            li.main-header_item
-                a(href='/admin/add-product') Add Product
+extends layouts/main-layout.pug
+
+block styles
+    link(rel='stylesheet', href='/css/product.css')
+
+block content
     main
         if prods.length > 0
             .grid
@@ -28,3 +20,4 @@ body
                             button.btn Add it to the cart
         else 
             h1 No products to show we ill restock soon
+
