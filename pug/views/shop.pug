@@ -1,0 +1,30 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title #{docTitle}
+    link(rel='stylesheet' href='/css/main.css')
+body  
+    header.main-header
+        nav.main-header_nav
+            ul.main-header_item_list
+            li.main-header_item
+                a.active(href='/') Shop
+            li.main-header_item
+                a(href='/admin/add-product') Add Product
+    main
+        if prods.length > 0
+            .grid
+                each product in prods
+                    article.card.product-item
+                        header.card_header
+                            h1.product_title #{product.title}
+                        div.card_image
+                            img(src="", alt="product image")
+                        div.card_content
+                            h2.product_price $666.00
+                            p.product_description This is a cool product cuz of this and that
+                        .card_actions
+                            button.btn Add it to the cart
+        else 
+            h1 No products to show we ill restock soon
