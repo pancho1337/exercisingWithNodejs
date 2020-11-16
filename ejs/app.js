@@ -1,7 +1,7 @@
-// const http = require('http')
 const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
+const errorController = require('./controllers/error')
 
 const app = express()
 //set ejs to be the templating engine
@@ -10,6 +10,7 @@ app.set('views', path.join(__dirname, 'views'))
 
 const adminData = require('./routes/admin')
 const shopRoutes = require("./routes/shop")
+
 app.use(bodyParser.urlencoded({ extended: false }))
 //deja que agares archivos como un OS comenzando desde este directorio
 app.use(express.static(path.join(__dirname, "public")))
@@ -17,16 +18,8 @@ app.use(express.static(path.join(__dirname, "public")))
 app.use("/admin", adminData.routes)
 app.use(shopRoutes)
 
-app.use((req, res, next) => {
-    // res.status(404).sendFile(path.join(__dirname, "views", "404.html"))
-    res.status(404).render('404', {
-        pageTitle: 'page not found',
-        path: '/error'
-    })
-})
+app.use(errorController.get404)
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!')
 })
-// const server = http.createServer(app)
-// server.listen(3000)
