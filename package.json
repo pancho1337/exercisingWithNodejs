@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "startPug": "nodemon ./pug/app.js",
     "ejs": "nodemon ./ejs/app.js",
-    "ejsUsers": "nodemon ./ejsUsers/app.js"
+    "ejsUsers": "nodemon ./ejsUsers/app.js",
+    "storeApp": "nodemon ./storeApp/app.js"
   },
   "repository": {
     "type": "git",
