@@ -14,10 +14,17 @@
                 <header class='card_header'>
                     <h1 class='product_title'><%= product.title %></h1>
                 </header>
-                <div class='card_image'>
-                    <h2 class='product_price'>$666.00</h2>
-                    <p class='product_description'>Something something with another thing blah blah blah</p>
-
+                <div class="card_image">
+                    <img src="<%= product.imageUrl %>" alt="Product Image">
+                </div>
+                <div class='card_content'>
+                    <h2 class='product_price'>$<%= product.price %></h2>
+                    <p class='product_description'><%= product.description %></p>
+                </div>
+                <div class="card_actions">
+                    <form action="/add-to-cart" method="POST">
+                        <button class="btn" type="submit">Add to Cart</button>
+                    </form>
                 </div>
             </article>
             <% } %>

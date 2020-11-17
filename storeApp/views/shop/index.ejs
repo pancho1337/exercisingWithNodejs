@@ -7,17 +7,22 @@
     <main>
         <% if( prods.length > 0 ){ %>
         <div class='grid'>
-            <h1>My Products</h1>
+            <h1>My Products INDEX </h1>
             <p>List of all the products</p>
             <% for (let product of prods) { %>
             <article class='card products-item'>
                 <header class='card_header'>
                     <h1 class='product_title'><%= product.title %></h1>
                 </header>
-                <div class='card_image'>
-                    <h2 class='product_price'>$666.00</h2>
-                    <p class='product_description'>Something something with another thing blah blah blah</p>
-
+                <div class="card_image">
+                    <img src="<%= product.imageUrl %>" alt="Product Image">
+                </div>
+                <div class='card_content'>
+                    <h2 class='product_price'>$<%= product.price %></h2>
+                    <p class='product_description'><%= product.description %></p>
+                </div>
+                <div class="card_actions">
+                    <button class="btn">Add to Cart</button>
                 </div>
             </article>
             <% } %>
