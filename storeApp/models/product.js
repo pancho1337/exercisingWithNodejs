@@ -14,8 +14,7 @@ const getProductsFromFile = (cb) => {
 
 module.exports = class Product {
     constructor(title) {
-        this.title = title,
-            this.p = path.join(__dirname, '../data', 'products.json')
+        this.title = title
     }
     save() {
         getProductsFromFile((products) => {
