@@ -23,16 +23,7 @@ exports.getEditProduct = (req, res, next) => {
     })
 }
 
-exports.postEditProduct = (req, res, next) => {
-    const prodId = req.body.productId
-    const updatedTitle = req.body.title;
-    const updatedPrice = req.body.price;
-    const updatedImageUrl = req.body.imageUrl;
-    const updatedDesc = req.body.description;
-    const updatedProduct = new Product(prodId, updatedTitle, updatedImageUrl, updatedDesc, updatedPrice)
-    updatedProduct.save()
-    res.redirect('/admin/products')
-}
+
 
 exports.getProducts = (req, res, next) => {
     Product.fetchAll((products) => {
@@ -50,8 +41,6 @@ exports.getAddProduct = (req, res, next) => {
         path: '/admin/add-product',
         editing: false
     })
-    // res.sendFile(path.join(__dirname, "..", "views", "add-product.html"))
-    // next()
 }
 
 exports.postAddProduct = (req, res, next) => {
@@ -61,7 +50,26 @@ exports.postAddProduct = (req, res, next) => {
     const price = req.body.price
     const product = new Product(null, title, imageUrl, description, price)
     product.save()
-    res.redirect("/")
+        .then(() => {
+            res.redirect("/");
+        })
+        .catch(err => console.log(err))
+}
+
+exports.postEditProduct = (req, res, next) => {
+    const prodId = req.body.productId
+    const updatedTitle = req.body.title;
+    const updatedPrice = req.body.price;
+    const updatedImageUrl = req.body.imageUrl;
+    const updatedDesc = req.body.description;
+    const updatedProduct = new Product(prodId, updatedTitle, updatedImageUrl, updatedDesc, updatedPrice)
+    updatedProduct.save()
+        .then(() => {
+            fire()
+            res.redirect("/");
+        })
+        .catch(err => console.log(err))
+    // res.redirect('/admin/products')
 }
 
 exports.postDeleteProduct = (req, res, next) => {

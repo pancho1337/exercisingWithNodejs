@@ -13,4 +13,4 @@ CREATE TABLE products (
   PRIMARY KEY (ID)
   );
 
-INSERT INTO products (title, price, description, imageUrl) values ( "A Red Book", 666.40, "Soy todo y no soy nada, un ser him padre o madre...", "https://picsum.photos/200");
+INSERT INTO products (title, price, description, imageUrl) values ( "A Red Book", 666.40, "Soy todo y no soy nada, un ser sin padre o madre...", "https://picsum.photos/200");
