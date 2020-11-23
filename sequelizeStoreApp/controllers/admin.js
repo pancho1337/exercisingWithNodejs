@@ -9,8 +9,11 @@ exports.getEditProduct = (req, res, next) => {
         return res.redirect('/')
     }
     const prodId = req.params.productId
-    Product.findByPk(prodId)
-        .then(product => {
+    // Product.findByPk(prodId)
+    req.user
+        .getProducts({ where: { id: prodId } })
+        .then(products => {
+            const product = products[0]
             if (!product) {
                 console.log("theres is not product redirect to home")
                 return res.redirect('/')
@@ -30,7 +33,9 @@ exports.getEditProduct = (req, res, next) => {
 
 
 exports.getProducts = (req, res, next) => {
-    Product.findAll()
+    // Product.findAll()
+    req.user
+        .getProducts()
         .then(products => {
             res.render('admin/products', {
                 prods: products,
@@ -56,14 +61,22 @@ exports.postAddProduct = (req, res, next) => {
     const imageUrl = req.body.imageUrl
     const description = req.body.description
     const price = req.body.price
-    Product.create({
+    req.user.createProduct({
         title: title,
         price: price,
         imageUrl: imageUrl,
         description: description
     })
+        // Product.create({
+        //     title: title,
+        //     price: price,
+        //     imageUrl: imageUrl,
+        //     description: description
+        //     // userId: req.user.id
+        // })
         .then(res => {
             console.log("created the product")
+            res.redirect("/admin/products")
         })
         .catch(err => {
             console.log(err)
@@ -96,6 +109,13 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId
-    Product.deleteById(prodId)
-    res.redirect('/admin/products')
+    Product.findByPk(prodId)
+        .then(prod => {
+            return prod.destroy()
+        })
+        .then(result => {
+            console.log("deleted Item")
+            res.redirect('/admin/products')
+        })
+        .catch(err => console.log(err))
 }
