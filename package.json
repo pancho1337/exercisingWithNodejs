@@ -9,7 +9,8 @@
     "ejs": "nodemon ./ejs/app.js",
     "ejsUsers": "nodemon ./ejsUsers/app.js",
     "storeApp": "nodemon ./storeApp/app.js",
-    "sqlStoreApp": "nodemon ./sqlStoreApp/app.js"
+    "sqlStoreApp": "nodemon ./sqlStoreApp/app.js",
+    "sequelize": "nodemon ./sequelizeStoreApp/app.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "express-handlebars": "^5.2.0",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.6",
-    "pug": "^3.0.0"
+    "pug": "^3.0.0",
+    "sequelize": "^6.3.5"
   }
 }
