@@ -74,8 +74,8 @@ exports.postAddProduct = (req, res, next) => {
         //     description: description
         //     // userId: req.user.id
         // })
-        .then(res => {
-            console.log("created the product")
+        .then(result => {
+            console.log("===> created the product")
             res.redirect("/admin/products")
         })
         .catch(err => {
