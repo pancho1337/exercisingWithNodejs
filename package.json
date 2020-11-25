@@ -10,7 +10,8 @@
     "ejsUsers": "nodemon ./ejsUsers/app.js",
     "storeApp": "nodemon ./storeApp/app.js",
     "sqlStoreApp": "nodemon ./sqlStoreApp/app.js",
-    "sequelize": "nodemon ./sequelizeStoreApp/app.js"
+    "sequelize": "nodemon ./sequelizeStoreApp/app.js",
+    "mongo": "nodemon ./mongoDBStoreApp/app.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
+    "mongodb": "^3.6.3",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.6",
     "pug": "^3.0.0",
