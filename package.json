@@ -11,7 +11,8 @@
     "storeApp": "nodemon ./storeApp/app.js",
     "sqlStoreApp": "nodemon ./sqlStoreApp/app.js",
     "sequelize": "nodemon ./sequelizeStoreApp/app.js",
-    "mongo": "nodemon ./mongoDBStoreApp/app.js"
+    "mongo": "nodemon ./mongoDBStoreApp/app.js",
+    "mongoose": "nodemon ./mongooseStoreApp/app.js"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,7 @@
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
     "mongodb": "^3.6.3",
-    "mongose": "0.0.2-security",
+    "mongoose": "^5.10.16",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.6",
     "pug": "^3.0.0",
