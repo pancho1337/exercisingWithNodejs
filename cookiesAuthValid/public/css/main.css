@@ -80,3 +80,15 @@ form {
     background: rosybrown;
     color: red;
 }
+
+@media (min-width: 768) {
+    .main-header_nav {
+        display: flex
+    }
+    #side-menu-toggle {
+        display: none
+    }
+    .user-message {
+        width: 30rem
+    }
+}
