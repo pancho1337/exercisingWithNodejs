@@ -64,3 +64,19 @@ form {
 .main-header_item a.active {
     color: purple;
 }
+
+.user-message{
+    margin: auto;
+    width: 90%;
+    border: 1px solid purple;
+    padding: .5rem;
+    border-radius: 3px;
+    background-color: rebeccapurple;
+    text-align: center;
+} 
+
+.user-message--error {
+    border-color: red;
+    background: rosybrown;
+    color: red;
+}

@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const session = require('express-session')
 //create a constructor function by passing your session 
 const MongoDbStore = require('connect-mongodb-session')(session)
+const csrf = require("csurf")
+const flash = require('connect-flash')
 
 const errorController = require('./controllers/error')
 const User = require('./models/user')
@@ -17,6 +19,7 @@ const store = new MongoDbStore({
     uri: MONGODB_URI,
     collection: 'sessions'
 })
+const csrfProctection = csrf()
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
@@ -34,6 +37,8 @@ app.use(session({
     saveUninitialized: false,
     store: store
 }))
+app.use(csrfProctection)
+app.use(flash())
 
 app.use((req, res, next) => {
     if (!req.session.user) {
@@ -45,6 +50,14 @@ app.use((req, res, next) => {
             next()
         })
         .catch(err => console.log(err))
+})
+// pass auth csrf to all user objs
+app.use((req, res, next) => {
+    // isAuthenticated: req.session.isLoggedIn,
+    // csrfToken: req.csrfToken()
+    res.locals.isAuthenticated = req.session.isLoggedIn
+    res.locals.csrfToken = req.csrfToken()
+    next()
 })
 
 app.use(authRoutes)
