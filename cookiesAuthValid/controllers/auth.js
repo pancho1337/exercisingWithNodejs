@@ -1,5 +1,14 @@
 const bcrypt = require("bcryptjs")
+// const nodemailer = require('nodemailer')
+// const sendgridTransport = require('nodemailer-sendgrid-transport')
+
 const User = require("../models/user")
+
+// const transporter = nodemailer.createTransport(sendgridTransport({
+//     auth: {
+//         api_key: "ma key"
+//     }
+// }))
 
 exports.getLogin = (req, res, next) => {
     // console.log(req.get('Cookie'))
@@ -91,6 +100,15 @@ exports.postSignup = (req, res, next) => {
                 })
                 .then(result => {
                     res.redirect('/login')
+                    // return transporter.sendMail({
+                    //     to: email,
+                    //     from: "francisco@holacode.com",
+                    //     subject: "Signup success",
+                    //     html: '<h1>Thank you for joining us</h1> <p>hope you find it what your looking for </p>'
+                    // })
+                })
+                .catch(err => {
+                    console.log(err)
                 })
         })
         .catch(err => console.log(err))
