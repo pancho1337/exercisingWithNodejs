@@ -7,7 +7,7 @@ const User = require("../models/user")
 
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth: {
-        api_key: "ma password"
+        api_key: "ma key"
     }
 }))
 
@@ -152,7 +152,7 @@ exports.postReset = (req, res, next) => {
                     return res.redirect('/reset')
                 }
                 user.resetToken = token
-                user.resetTokenExpiration = Date.now() + 3600000
+                user.resetTokenExpirationDate = Date.now() + 3600000
                 return user.save()
             })
             .then(result => {
@@ -173,7 +173,8 @@ exports.postReset = (req, res, next) => {
 
 exports.getNewPassword = (req, res, next) => {
     const token = req.params.token
-    User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } })
+    console.log(token)
+    User.findOne({ resetToken: token, resetTokenExpirationDate: { $gt: Date.now() } })
         .then(user => {
             let message = req.flash('error')
             if (message.length > 0) {
@@ -181,14 +182,46 @@ exports.getNewPassword = (req, res, next) => {
             } else {
                 message = null
             }
+            console.log(user)
             res.render('auth/new-password', {
                 path: '/new-password',
                 errorMessage: message,
                 pageTitle: "New Password",
-                userId: user._id.toString()
+                userId: user._id.toString(),
+                passwordToken: token
             })
         })
         .catch(err => {
             console.log(err)
         })
+}
+
+exports.postNewPassword = (req, res, next) => {
+    const newPassword = req.body.password
+    const userId = req.body.userId
+    const passwordToken = req.body.passwordToken
+    let resetUser
+
+    User.findOne({
+        resetToken: passwordToken,
+        resetTokenExpirationDate: { $gt: Date.now() },
+        _id: userId
+    })
+        .then(user => {
+            resetUser = user
+            return bcrypt.hash(newPassword, 12)
+        })
+        .then(hashedPW => {
+            console.log(resetUser)
+            resetUser.password = hashedPW
+            resetUser.resetToken = undefined
+            resetUser.resetTokenExpiration = undefined
+            return resetUser.save()
+        })
+        .then(result => {
+            console.log("saving to db")
+            res.redirect('/login')
+        })
+        .catch(err => console.log(err))
+
 }
