@@ -1,15 +1,15 @@
 const crypto = require('crypto')
 const bcrypt = require("bcryptjs")
-// const nodemailer = require('nodemailer')
-// const sendgridTransport = require('nodemailer-sendgrid-transport')
+const nodemailer = require('nodemailer')
+const sendgridTransport = require('nodemailer-sendgrid-transport')
 
 const User = require("../models/user")
 
-// const transporter = nodemailer.createTransport(sendgridTransport({
-//     auth: {
-//         api_key: "ma key"
-//     }
-// }))
+const transporter = nodemailer.createTransport(sendgridTransport({
+    auth: {
+        api_key: "ma password"
+    }
+}))
 
 exports.getLogin = (req, res, next) => {
     // console.log(req.get('Cookie'))
@@ -101,12 +101,12 @@ exports.postSignup = (req, res, next) => {
                 })
                 .then(result => {
                     res.redirect('/login')
-                    // return transporter.sendMail({
-                    //     to: email,
-                    //     from: "francisco@holacode.com",
-                    //     subject: "Signup success",
-                    //     html: '<h1>Thank you for joining us</h1> <p>hope you find it what your looking for </p>'
-                    // })
+                    return transporter.sendMail({
+                        to: email,
+                        from: "francisco@holacode.com",
+                        subject: "Signup success",
+                        html: '<h1>Thank you for joining us</h1> <p>hope you find it what your looking for </p>'
+                    })
                 })
                 .catch(err => {
                     console.log(err)
@@ -169,4 +169,26 @@ exports.postReset = (req, res, next) => {
             })
             .catch(err => console.log(err))
     })
-} 
+}
+
+exports.getNewPassword = (req, res, next) => {
+    const token = req.params.token
+    User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } })
+        .then(user => {
+            let message = req.flash('error')
+            if (message.length > 0) {
+                message = message[0]
+            } else {
+                message = null
+            }
+            res.render('auth/new-password', {
+                path: '/new-password',
+                errorMessage: message,
+                pageTitle: "New Password",
+                userId: user._id.toString()
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
