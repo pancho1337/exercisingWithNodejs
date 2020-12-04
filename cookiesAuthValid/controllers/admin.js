@@ -36,7 +36,7 @@ exports.postAddProduct = (req, res, next) => {
 }
 
 exports.getProducts = (req, res, next) => {
-    Product.find()
+    Product.find({ userId: req.user._id })
         //will only give what you want - what you exclude
         // .select('title price -_id')
         //will populate that user id to its object, 2nd param indicates only what you want
@@ -96,18 +96,21 @@ exports.postEditProduct = (req, res, next) => {
     //     })
     Product.findById(prodId)
         .then(product => {
-            console.log("===>", product)
-
+            // checking type equlity add toString
+            if (product.userId.toString() !== req.user._id.toString()) {
+                return res.redirect('/')
+            }
             product.title = updatedTitle
             product.price = updatedPrice
             product.description = updatedDesc
             product.imageUrl = updatedImageUrl
-            console.log("===>", product)
-            return product.save()
-        })
-        .then(result => {
-            console.log("product was updated")
-            res.redirect('/admin/products')
+            // nested then in order to do a dual redirect
+            return product
+                .save()
+                .then(result => {
+                    console.log("product was updated")
+                    res.redirect('/admin/products')
+                })
         })
         .catch(err => {
             console.log(err)
@@ -116,7 +119,7 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId
-    Product.deleteOne({ _id: prodId })
+    Product.deleteOne({ _id: prodId, userId: req.user._id })
         .then(() => {
             console.log("deleted Item")
             res.redirect('/admin/products')
