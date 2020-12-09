@@ -139,6 +139,7 @@ exports.getReset = (req, res, next) => {
 }
 
 exports.postReset = (req, res, next) => {
+    //express crypto lib to gen hex token
     crypto.randomBytes(32, (err, buffer) => {
         if (err) {
             console.log(err)
@@ -148,7 +149,7 @@ exports.postReset = (req, res, next) => {
         User.findOne({ email: req.body.email })
             .then(user => {
                 if (!user) {
-                    req.flash('error', "Server Error =)")
+                    req.flash('error', "Server Error =P")
                     return res.redirect('/reset')
                 }
                 user.resetToken = token
@@ -163,7 +164,8 @@ exports.postReset = (req, res, next) => {
                     subject: "Signup success",
                     html: `
                     <h1>Password Reset Requested</h1>
-                    <p> Click here to reset <a href="http://localhost:3000/reset/${token}">reset link</a>
+                    <p>Click here to reset <a href="http://localhost:3000/reset/${token}">reset link</a>
+                    <p>Expiration 1 hour</p>
                     `
                 })
             })
@@ -173,7 +175,7 @@ exports.postReset = (req, res, next) => {
 
 exports.getNewPassword = (req, res, next) => {
     const token = req.params.token
-    console.log(token)
+    // console.log(token)
     User.findOne({ resetToken: token, resetTokenExpirationDate: { $gt: Date.now() } })
         .then(user => {
             let message = req.flash('error')
@@ -212,16 +214,15 @@ exports.postNewPassword = (req, res, next) => {
             return bcrypt.hash(newPassword, 12)
         })
         .then(hashedPW => {
-            console.log(resetUser)
+            // console.log(resetUser)
             resetUser.password = hashedPW
             resetUser.resetToken = undefined
             resetUser.resetTokenExpiration = undefined
             return resetUser.save()
         })
         .then(result => {
-            console.log("saving to db")
+            // console.log("saving to db")
             res.redirect('/login')
         })
         .catch(err => console.log(err))
-
 }
